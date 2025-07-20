@@ -1,109 +1,46 @@
 while True:
+
     try:
-        N, M = map(int, input().split())
+        M,N = map(int, input().split())
 
         matrix = []
 
-        for i in range(N):
-            row_list = []
-            row = input()
-            for item in row:
-                row_list.append(int(item))
-            matrix.append(row_list)
+        # Create a matrix with M rows and N columns initialized with zeros
+        output = [[0 for _ in range(N)] for _ in range(M)]
 
-        for r in range(N):
-            for c in range(M):
-                if matrix[r][c] == 1:
-                    matrix[r][c] = 9
+        # Taking input for matrix
+        for i in range(M):
+            x = input()
+            row = list(map(int, x.split()))
+            matrix.append(row)
 
-        #print(matrix)
+        # If matrix has 1 in it, it will be replaced by 9
+        for i in range(M):
+            for j in range(N):
+                if matrix[i][j] == 1:
+                    output[i][j] = 9
 
-        #calculating adjacent
+        # Summation of cells
+        for i in range(M):
+            for j in range(N):
+                if matrix[i][j] == 0:
+                    sum = 0
+                    # Check up
+                    if i > 0 and matrix[i-1][j] == 1:
+                        sum += 1
+                    # Check down
+                    if i < M-1 and matrix[i+1][j] == 1:
+                        sum += 1
+                    # Check left
+                    if j > 0 and matrix[i][j-1] == 1:
+                        sum += 1
+                    # Check right
+                    if j < N-1 and matrix[i][j+1] == 1:
+                        sum += 1
+                    output[i][j] = sum
 
-        for r in range(N):
-            for c in range(M):
-                if (r!=0 and c!=0 and r!=N-1 and c!=M-1):
-                    if matrix[r][c] == 0:
-                        sum = 0
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1
-                        matrix[r][c] = sum
-                else:
-                    if matrix[r][c] == 0 and r==0 and c==0:
-                        sum = 0
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r==0 and c==M-1:
-                        sum = 0
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r==N-1 and c==0:
-                        sum = 0
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r==N-1 and c==M-1:
-                        sum = 0
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r>0 and c==0:
-                        sum = 0
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r==0 and c>0:
-                        sum = 0
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r>0 and c==M-1:
-                        sum = 0
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r+1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-                    if matrix[r][c] == 0 and r==N-1 and c>0:
-                        sum = 0
-                        if matrix[r-1][c] == 9:
-                            sum = sum + 1
-                        if matrix[r][c+1] == 9:
-                            sum = sum + 1
-                        if matrix[r][c-1] == 9:
-                            sum = sum + 1   
-                        matrix[r][c] = sum
-
-        for r in range(N):
-
-            result = "".join(map(str,matrix[r]))
-            print(result)
+        for i in range(M):
+            print("".join(map(str, output[i])))
 
     except EOFError:
         break
